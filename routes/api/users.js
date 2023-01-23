@@ -7,6 +7,8 @@ const {
   getCurrentUser,
   updateSubscription,
   updateAvatar,
+  emailVerification,
+  repeatEmailVerification,
 } = require("../../models/users");
 const { authMiddleware } = require("../../middlewares/authMiddleware");
 const uploads = require("../../middlewares/uploads");
@@ -31,6 +33,8 @@ const validator = (schema) => (req, res, next) => {
 const router = express.Router();
 
 router.post("/signup", validator(signupAndLoginSchema), signup);
+router.get("/verify/:verificationToken", emailVerification);
+router.post("/verify", repeatEmailVerification);
 router.post("/login", validator(signupAndLoginSchema), login);
 router.get("/logout", authMiddleware, logout);
 router.get("/current", authMiddleware, getCurrentUser);
